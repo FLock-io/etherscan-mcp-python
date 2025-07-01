@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="resources/logo-full.svg" alt="FLock Logo" width="400" />
+</p>
+
 # Etherscan MCP Python Server
 
 A complete Python implementation of the Etherscan Model Context Protocol (MCP) server, providing comprehensive access to Ethereum blockchain data through the Etherscan API.
