@@ -40,6 +40,12 @@ Set your Etherscan API key as an environment variable:
 export ETHERSCAN_API_KEY="your_api_key_here"
 ```
 
+Or create a `.env` file:
+```bash
+cp .env.example .env
+# Edit .env and add your API key
+```
+
 ## Usage
 
 ### Standalone Server
@@ -57,6 +63,21 @@ etherscan_mcp = MCPTools(
     timeout_seconds=120
 )
 ```
+
+## Testing Tools
+
+To test all tools and generate recommendations for Agent development:
+
+```bash
+# Setup
+cp .env.example .env
+# Add your API key to .env file
+
+# Run comprehensive test
+python test_all_tools.py
+```
+
+This will test 39+ tools and generate detailed analysis for Agent development. See [`TESTING_SETUP.md`](TESTING_SETUP.md) for details.
 
 ## Complete Tool Reference
 
@@ -150,6 +171,82 @@ etherscan_mcp = MCPTools(
 | `proxy_eth_getStorageAt` | Get storage value at position | `address`, `position`, `tag`, `chainid` |
 | `proxy_eth_gasPrice` | Get current gas price | `chainid` |
 | `proxy_eth_estimateGas` | Estimate gas for transaction | `data`, `to`, `value`, `gas`, `gasPrice` |
+
+## 🤖 Essential Tools for Building Agents
+
+*Based on comprehensive testing of all tools using test_all_tools.py*
+
+### Quick Reference for Agent Development
+
+| Category | 🟢 Essential | 🟡 Situational | 🔴 Not Recommended |
+|----------|-------------|----------------|-------------------|
+| **Account** | 7 tools | 5 tools | 1 tool |
+| **Block** | 3 tools | 0 tools | 1 tool |
+| **Contract** | 1 tool | 2 tools | 0 tools |
+| **Transaction** | 2 tools | 0 tools | 0 tools |
+| **Token** | 2 tools | 0 tools | 0 tools |
+| **Gas** | 2 tools | 0 tools | 1 tool |
+| **Statistics** | 2 tools | 0 tools | 4 tools |
+| **Logs** | 0 tools | 2 tools | 0 tools |
+| **RPC** | 4 tools | 1 tool | 0 tools |
+| **TOTAL** | **24 tools** | **7 tools** | **8 tools** |
+
+#### Complete Essential Tools List
+
+**Account Tools (7/13)**
+- ✅ `account_balance` - ETH balance
+- ✅ `account_balancemulti` - Multiple balances
+- ✅ `account_txlistinternal` - Internal transactions
+- ✅ `account_txlistinternal_byhash` - Internal tx by hash
+- ✅ `account_fundedby` - Funding source
+- ✅ `account_getminedblocks` - Mined blocks
+- ✅ `account_txsBeaconWithdrawal` - Beacon withdrawals
+
+**Block Tools (3/4)**
+- ✅ `block_getblockreward` - Block rewards
+- ✅ `block_getblocknobytime` - Block by timestamp
+- ✅ `block_getblocktxnscount` - Transaction count
+
+**Contract Tools (1/4)**
+- ✅ `contract_getcontractcreation` - Contract creation info
+
+**Transaction Tools (2/2)**
+- ✅ `transaction_getstatus` - Contract execution status
+- ✅ `transaction_gettxreceiptstatus` - Receipt status
+
+**Token Tools (2/2)**  
+- ✅ `stats_tokensupply` - Token total supply
+- ✅ `account_tokenbalance` - Token balance
+
+**Gas Tools (2/3)**
+- ✅ `gas_gasoracle` - Current gas prices
+- ✅ `gas_gasestimate` - Gas time estimate
+
+**Statistics Tools (2/6)**
+- ✅ `stats_ethprice` - ETH price
+- ✅ `stats_nodecount` - Network node count
+
+**RPC Tools (4/5)**
+- ✅ `proxy_eth_blockNumber` - Latest block
+- ✅ `proxy_eth_gasPrice` - Gas price
+- ✅ `proxy_eth_getTransactionByHash` - Transaction details
+- ✅ `proxy_eth_getTransactionCount` - Address nonce
+
+### 🟡 Situational Tools (7 tools)
+*Larger outputs or specific use cases, use carefully*
+
+**Large Output Tools (require careful context management)**
+- ⚠️ `account_txlist` - Normal transactions - Use pagination
+- ⚠️ `account_tokentx` - ERC20 transfers - Use pagination
+- ⚠️ `account_tokennfttx` - NFT transfers - Use pagination  
+- ⚠️ `account_token1155tx` - ERC1155 transfers - Use pagination
+- ⚠️ `contract_getabi` - Contract ABI - Very technical
+- ⚠️ `contract_getsourcecode` - Source code - Extremely large
+
+**Slower Response Tools**
+- ⚠️ `account_txlistinternal_byblock` - Internal tx by block
+- ⚠️ `logs_getLogsByAddress` - Event logs - Use small ranges
+- ⚠️ `logs_getLogsByTopics` - Event logs - Use small ranges
 
 ## 🎯 Use Cases & Examples
 
