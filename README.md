@@ -8,7 +8,7 @@ A complete Python implementation of the Etherscan Model Context Protocol (MCP) s
 
 ## Overview
 
-This server provides 53+ tools for accessing Ethereum blockchain data, including:
+This server provides 56 comprehensive tools for accessing Ethereum blockchain data, including:
 
 - **Account Tools**: Balance checking, transaction history, internal transactions
 - **Block Tools**: Block data, rewards, timing information
@@ -73,11 +73,22 @@ To test all tools and generate recommendations for Agent development:
 cp .env.example .env
 # Add your API key to .env file
 
-# Run comprehensive test
+# Run comprehensive test (tests all 56 tools)
 python test_all_tools.py
 ```
 
-This will test all tools and generate detailed analysis for Agent development.
+This will test all 56 tools and generate:
+- **tool_test_results.json**: Raw test results with performance metrics
+- **AGENT_TOOL_ANALYSIS.md**: Comprehensive analysis and agent development recommendations
+
+### 📊 Agent Development Analysis
+
+For detailed agent development guidance, see **[AGENT_TOOL_ANALYSIS.md](./AGENT_TOOL_ANALYSIS.md)** which includes:
+
+- **Performance Metrics**: Response times, output sizes, success rates
+- **Agent Implementation Strategies**: Tool combinations, error handling, context management  
+- **Recommended Tool Suites**: Pre-configured toolsets for different use cases
+- **Best Practices**: Rate limiting, caching, pagination strategies
 
 ## Complete Tool Reference
 
@@ -174,79 +185,122 @@ This will test all tools and generate detailed analysis for Agent development.
 
 ## 🤖 Essential Tools for Building Agents
 
-*Based on comprehensive testing of all tools using test_all_tools.py*
+*Based on comprehensive testing of all 56 tools using test_all_tools.py*
 
 ### Quick Reference for Agent Development
 
-| Category | 🟢 Essential | 🟡 Situational | 🔴 Not Recommended |
-|----------|-------------|----------------|-------------------|
-| **Account** | 7 tools | 5 tools | 1 tool |
-| **Block** | 3 tools | 0 tools | 1 tool |
-| **Contract** | 1 tool | 2 tools | 0 tools |
-| **Transaction** | 2 tools | 0 tools | 0 tools |
-| **Token** | 2 tools | 0 tools | 0 tools |
-| **Gas** | 2 tools | 0 tools | 1 tool |
-| **Statistics** | 2 tools | 0 tools | 4 tools |
-| **Logs** | 0 tools | 2 tools | 0 tools |
-| **RPC** | 4 tools | 1 tool | 0 tools |
-| **TOTAL** | **24 tools** | **7 tools** | **8 tools** |
+| Category | 🟢 Essential | 🟡 Situational | 🔴 Other Tools | Total |
+|----------|-------------|----------------|-------------------|-------|
+| **Account** | 9 tools | 3 tools | 0 tools | 12 tools |
+| **Block** | 3 tools | 0 tools | 1 tool | 4 tools |
+| **Contract** | 3 tools | 0 tools | 1 tool | 4 tools |
+| **Transaction** | 2 tools | 0 tools | 0 tools | 2 tools |
+| **Token** | 2 tools | 0 tools | 0 tools | 2 tools |
+| **Gas** | 2 tools | 0 tools | 1 tool | 3 tools |
+| **Statistics** | 3 tools | 0 tools | 9 tools | 12 tools |
+| **Logs** | 0 tools | 3 tools | 0 tools | 3 tools |
+| **RPC** | 8 tools | 2 tools | 3 tools | 13 tools |
+| **TOTAL** | **32 tools** | **8 tools** | **15 tools** | **56 tools** |
 
 #### Complete Essential Tools List
 
-**Account Tools (7/13)**
-- ✅ `account_balance` - ETH balance
-- ✅ `account_balancemulti` - Multiple balances
-- ✅ `account_txlistinternal` - Internal transactions
-- ✅ `account_txlistinternal_byhash` - Internal tx by hash
-- ✅ `account_fundedby` - Funding source
-- ✅ `account_getminedblocks` - Mined blocks
-- ✅ `account_txsBeaconWithdrawal` - Beacon withdrawals
+**Account Tools (9/12)**
+- ✅ `account_balance` - Single ETH balance (0.6s, 21 chars)
+- ✅ `account_balancemulti` - Multiple ETH balances (0.62s, 198 chars)
+- ✅ `account_txlistinternal` - Internal transactions (0.62s, 4.6KB)
+- ✅ `account_txlistinternal_byhash` - Internal tx by hash (0.58s, 2 chars)
+- ✅ `account_txlistinternal_byblock` - Internal tx by block (2.29s, 4.7KB)
+- ✅ `account_tokentx` - ERC-20 transfers (0.65s, 8.1KB)
+- ✅ `account_tokennfttx` - NFT transfers (0.78s, 8.7KB)
+- ✅ `account_token1155tx` - ERC-1155 transfers (0.65s, 9KB)
+- ✅ `account_fundedby` - Funding source (0.62s, 235 chars)
 
 **Block Tools (3/4)**
-- ✅ `block_getblockreward` - Block rewards
-- ✅ `block_getblocknobytime` - Block by timestamp
-- ✅ `block_getblocktxnscount` - Transaction count
+- ✅ `block_getblockreward` - Block rewards (0.59s, 207 chars)
+- ✅ `block_getblocknobytime` - Block by timestamp (0.58s, 10 chars)
+- ✅ `block_getblocktxnscount` - Transaction count (0.58s, 4 chars)
 
-**Contract Tools (1/4)**
-- ✅ `contract_getcontractcreation` - Contract creation info
+**Contract Tools (3/4)**
+- ✅ `contract_getabi` - Contract ABI (0.61s, 8.4KB)
+- ✅ `contract_getsourcecode` - Source code (0.62s, 25KB)
+- ✅ `contract_getcontractcreation` - Creation info (0.62s, 24KB)
 
 **Transaction Tools (2/2)**
-- ✅ `transaction_getstatus` - Contract execution status
-- ✅ `transaction_gettxreceiptstatus` - Receipt status
+- ✅ `transaction_getstatus` - Execution status (0.61s, 44 chars)
+- ✅ `transaction_gettxreceiptstatus` - Receipt status (0.62s, 18 chars)
 
 **Token Tools (2/2)**  
-- ✅ `stats_tokensupply` - Token total supply
-- ✅ `account_tokenbalance` - Token balance
+- ✅ `stats_tokensupply` - Token total supply (0.59s, 19 chars)
+- ✅ `account_tokenbalance` - Token balance (0.6s, 11 chars)
 
 **Gas Tools (2/3)**
-- ✅ `gas_gasoracle` - Current gas prices
-- ✅ `gas_gasestimate` - Gas time estimate
+- ✅ `gas_gasoracle` - Current gas prices (0.59s, 277 chars)
+- ✅ `gas_gasestimate` - Gas time estimate (0.61s, 4 chars)
 
-**Statistics Tools (2/6)**
-- ✅ `stats_ethprice` - ETH price
-- ✅ `stats_nodecount` - Network node count
+**Statistics Tools (3/12)**
+- ✅ `stats_ethprice` - ETH price (0.58s, 140 chars)
+- ✅ `stats_chainsize` - Blockchain size (0.6s, 488 chars)
+- ✅ `stats_nodecount` - Network nodes (0.61s, 58 chars)
 
-**RPC Tools (4/5)**
-- ✅ `proxy_eth_blockNumber` - Latest block
-- ✅ `proxy_eth_gasPrice` - Gas price
-- ✅ `proxy_eth_getTransactionByHash` - Transaction details
-- ✅ `proxy_eth_getTransactionCount` - Address nonce
+**RPC Tools (8/13)**
+- ✅ `proxy_eth_blockNumber` - Latest block (0.59s, 11 chars)
+- ✅ `proxy_eth_gasPrice` - Gas price (0.58s, 12 chars)
+- ✅ `proxy_eth_getTransactionByHash` - Transaction details (0.61s, 626 chars)
+- ✅ `proxy_eth_getTransactionCount` - Address nonce (0.59s, 7 chars)
+- ✅ `proxy_eth_getUncleByBlockNumberAndIndex` - Uncle blocks (0.61s, 4 chars)
+- ✅ `proxy_eth_getBlockTransactionCountByNumber` - Block tx count (0.59s, 4 chars)
+- ✅ `proxy_eth_getTransactionByBlockNumberAndIndex` - Tx by index (0.61s, 4 chars)
+- ✅ `proxy_eth_getTransactionReceipt` - Transaction receipt (0.59s, 1.1KB)
+- ✅ `proxy_eth_call` - Contract call (0.6s, 68 chars)
+- ✅ `proxy_eth_getCode` - Contract code (0.59s, 22KB)
+- ✅ `proxy_eth_getStorageAt` - Storage slot (0.59s, 68 chars)
+- ✅ `proxy_eth_estimateGas` - Gas estimation (0.6s, 120 chars)
 
-### 🟡 Situational Tools (7 tools)
-*Larger outputs or specific use cases, use carefully*
+### 🟡 Situational Tools (8 tools)
+*Larger outputs, slower responses, or specific use cases - use carefully*
 
-**Large Output Tools (require careful context management)**
-- ⚠️ `account_txlist` - Normal transactions - Use pagination
-- ⚠️ `account_tokentx` - ERC20 transfers - Use pagination
-- ⚠️ `account_tokennfttx` - NFT transfers - Use pagination  
-- ⚠️ `account_token1155tx` - ERC1155 transfers - Use pagination
-- ⚠️ `contract_getabi` - Contract ABI - Very technical
-- ⚠️ `contract_getsourcecode` - Source code - Extremely large
+**Large Output Tools (require pagination and context management)**
+- ⚠️ `account_txlist` - Normal transactions (0.62s, 9.6KB) - Use pagination
+- ⚠️ `account_getminedblocks` - Mined blocks (0.61s, empty for most addresses)
+- ⚠️ `account_txsBeaconWithdrawal` - Beacon withdrawals (0.61s, empty for pre-merge addresses)
 
-**Slower Response Tools**
-- ⚠️ `account_txlistinternal_byblock` - Internal tx by block
-- ⚠️ `logs_getLogsByAddress` - Event logs - Use small ranges
-- ⚠️ `logs_getLogsByTopics` - Event logs - Use small ranges
+**Event Log Analysis Tools (powerful but slow)**
+- ⚠️ `logs_getLogsByAddress` - Event logs by address (0.82s, 7.6KB)
+- ⚠️ `logs_getLogsByTopics` - Event logs by topics (1.28s, 7.6KB)
+- ⚠️ `logs_getLogsByAddressAndTopics` - Combined filtering (3.08s, 7.6KB)
+
+**Large Block Data Tools**
+- ⚠️ `proxy_eth_getBlockByNumber` - Complete block data (0.58s, can be very large)
+
+**Variable Size RPC Tools**
+- ⚠️ RPC tools marked as situational provide flexible access but require careful parameter management
+
+**Usage Tips:**
+- Use small block ranges for logs tools (1000 blocks max)  
+- Implement pagination for transaction lists
+- Cache results when possible
+- Monitor response times and output sizes
+
+### 🔴 Other Tools (15 tools)
+*These tools failed during testing or require Pro accounts*
+
+**API Errors & Limitations (3 tools)**
+- ❌ `block_getblockcountdown` - API Error (invalid future block number)
+- ❌ `contract_checkverifystatus` - API Error (requires valid verification GUID)
+- ❌ `stats_dailyavggaslimit` - API Error (possible Pro requirement)
+
+**Pro Account Required (12 tools)**
+Most daily statistics tools require Etherscan Pro accounts:
+- ❌ `stats_ethsupply` / `stats_ethsupply2` - ETH supply data
+- ❌ `stats_dailytxnfee` - Daily transaction fees
+- ❌ `stats_dailynewaddress` - Daily new addresses
+- ❌ `stats_dailynetutilization` - Daily network utilization
+- ❌ `stats_dailyavghashrate` - Daily average hashrate
+- ❌ `stats_dailytx` - Daily transaction count
+- ❌ `stats_dailyavgnetdifficulty` - Daily mining difficulty
+- ❌ `stats_ethdailyprice` - Historical ETH prices
+
+**Recommendation**: Use essential tools for reliable agent performance. Pro tools may work with upgraded Etherscan accounts.
 
 ## 🎯 Use Cases & Examples
 

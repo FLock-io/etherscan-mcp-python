@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Comprehensive test script for all Etherscan MCP tools.
-Tests all 61 tools to determine which are essential for building Agents.
+Tests all 56 tools to determine which are essential for building Agents.
 
 Setup:
 1. Copy .env.example to .env
@@ -385,6 +385,15 @@ class ToolTester:
                     'contractaddresses': self.test_data['usdt_contract'],
                     'chainid': '1'
                 }
+            },
+            {
+                'name': 'contract_checkverifystatus',
+                'params': {
+                    'module': 'contract',
+                    'action': 'checkverifystatus',
+                    'guid': 'test-guid-placeholder',  # This will likely fail as it needs a real GUID
+                    'chainid': '1'
+                }
             }
         ]
         
@@ -516,6 +525,18 @@ class ToolTester:
                 }
             },
             {
+                'name': 'stats_chainsize',
+                'params': {
+                    'module': 'stats',
+                    'action': 'chainsize',
+                    'startdate': self.test_data['week_ago'],
+                    'enddate': self.test_data['yesterday'],
+                    'clienttype': 'geth',
+                    'syncmode': 'default',
+                    'chainid': '1'
+                }
+            },
+            {
                 'name': 'stats_nodecount',
                 'params': {
                     'module': 'stats',
@@ -539,6 +560,61 @@ class ToolTester:
                 'params': {
                     'module': 'stats',
                     'action': 'dailynewaddress',
+                    'startdate': self.test_data['week_ago'],
+                    'enddate': self.test_data['yesterday'],
+                    'sort': 'asc',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'stats_dailynetutilization',
+                'params': {
+                    'module': 'stats',
+                    'action': 'dailynetutilization',
+                    'startdate': self.test_data['week_ago'],
+                    'enddate': self.test_data['yesterday'],
+                    'sort': 'asc',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'stats_dailyavghashrate',
+                'params': {
+                    'module': 'stats',
+                    'action': 'dailyavghashrate',
+                    'startdate': self.test_data['week_ago'],
+                    'enddate': self.test_data['yesterday'],
+                    'sort': 'asc',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'stats_dailytx',
+                'params': {
+                    'module': 'stats',
+                    'action': 'dailytx',
+                    'startdate': self.test_data['week_ago'],
+                    'enddate': self.test_data['yesterday'],
+                    'sort': 'asc',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'stats_dailyavgnetdifficulty',
+                'params': {
+                    'module': 'stats',
+                    'action': 'dailyavgnetdifficulty',
+                    'startdate': self.test_data['week_ago'],
+                    'enddate': self.test_data['yesterday'],
+                    'sort': 'asc',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'stats_ethdailyprice',
+                'params': {
+                    'module': 'stats',
+                    'action': 'ethdailyprice',
                     'startdate': self.test_data['week_ago'],
                     'enddate': self.test_data['yesterday'],
                     'sort': 'asc',
@@ -573,6 +649,20 @@ class ToolTester:
                 'params': {
                     'module': 'logs',
                     'action': 'getLogs',
+                    'fromBlock': self.test_data['older_block'],
+                    'toBlock': self.test_data['recent_block'],
+                    'topic0': '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',  # Transfer event
+                    'page': '1',
+                    'offset': '10',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'logs_getLogsByAddressAndTopics',
+                'params': {
+                    'module': 'logs',
+                    'action': 'getLogs',
+                    'address': self.test_data['usdt_contract'],
                     'fromBlock': self.test_data['older_block'],
                     'toBlock': self.test_data['recent_block'],
                     'topic0': '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',  # Transfer event
@@ -633,6 +723,89 @@ class ToolTester:
                     'action': 'eth_getTransactionCount',
                     'address': self.test_data['vitalik_address'],
                     'tag': 'latest',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_getUncleByBlockNumberAndIndex',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_getUncleByBlockNumberAndIndex',
+                    'tag': self.test_data['recent_block'],
+                    'index': '0x0',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_getBlockTransactionCountByNumber',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_getBlockTransactionCountByNumber',
+                    'tag': self.test_data['recent_block'],
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_getTransactionByBlockNumberAndIndex',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_getTransactionByBlockNumberAndIndex',
+                    'tag': self.test_data['recent_block'],
+                    'index': '0x0',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_getTransactionReceipt',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_getTransactionReceipt',
+                    'txhash': self.test_data['known_tx'],
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_call',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_call',
+                    'to': self.test_data['usdt_contract'],
+                    'data': '0x18160ddd',  # totalSupply() function signature
+                    'tag': 'latest',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_getCode',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_getCode',
+                    'address': self.test_data['usdt_contract'],
+                    'tag': 'latest',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_getStorageAt',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_getStorageAt',
+                    'address': self.test_data['usdt_contract'],
+                    'position': '0x0',
+                    'tag': 'latest',
+                    'chainid': '1'
+                }
+            },
+            {
+                'name': 'proxy_eth_estimateGas',
+                'params': {
+                    'module': 'proxy',
+                    'action': 'eth_estimateGas',
+                    'data': '0xa9059cbb000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa96045000000000000000000000000000000000000000000000000000000000000000a',
+                    'to': self.test_data['usdt_contract'],
+                    'value': '0x0',
+                    'gasPrice': '0x9184e72a000',
+                    'gas': '0x76c0',
                     'chainid': '1'
                 }
             }
