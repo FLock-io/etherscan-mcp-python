@@ -77,7 +77,7 @@ cp .env.example .env
 python test_all_tools.py
 ```
 
-This will test 39+ tools and generate detailed analysis for Agent development. See [`TESTING_SETUP.md`](TESTING_SETUP.md) for details.
+This will test all tools and generate detailed analysis for Agent development.
 
 ## Complete Tool Reference
 
