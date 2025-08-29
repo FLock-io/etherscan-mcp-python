@@ -8,7 +8,7 @@ A complete Python implementation of the Etherscan Model Context Protocol (MCP) s
 
 ## Overview
 
-This server provides 53+ tools for accessing Ethereum blockchain data, including:
+This server provides 56 comprehensive tools for accessing Ethereum blockchain data, including:
 
 - **Account Tools**: Balance checking, transaction history, internal transactions
 - **Block Tools**: Block data, rewards, timing information
@@ -40,6 +40,12 @@ Set your Etherscan API key as an environment variable:
 export ETHERSCAN_API_KEY="your_api_key_here"
 ```
 
+Or create a `.env` file:
+```bash
+cp .env.example .env
+# Edit .env and add your API key
+```
+
 ## Usage
 
 ### Standalone Server
@@ -57,6 +63,22 @@ etherscan_mcp = MCPTools(
     timeout_seconds=120
 )
 ```
+
+## Testing Tools
+
+To test all tools and generate recommendations for Agent development:
+
+```bash
+# Setup
+cp .env.example .env
+# Add your API key to .env file
+
+# Run comprehensive test (tests all 56 tools)
+python test_all_tools.py
+```
+
+This will test all 56 tools and generate:
+- **tool_test_results.json**: Raw test results with performance metrics
 
 ## Complete Tool Reference
 
@@ -150,6 +172,123 @@ etherscan_mcp = MCPTools(
 | `proxy_eth_getStorageAt` | Get storage value at position | `address`, `position`, `tag`, `chainid` |
 | `proxy_eth_gasPrice` | Get current gas price | `chainid` |
 | `proxy_eth_estimateGas` | Estimate gas for transaction | `data`, `to`, `value`, `gas`, `gasPrice` |
+
+## 🤖 Essential Tools for Building Agents
+
+*Based on comprehensive testing of all 55 tools using test_all_tools.py*
+
+### Quick Reference for Agent Development
+
+| Category | 🟢 Essential | 🟡 Situational | 🔴 Other Tools | Total |
+|----------|-------------|----------------|-------------------|-------|
+| **Account** | 11 tools | 1 tool | 0 tools | 12 tools |
+| **Block** | 3 tools | 0 tools | 1 tool | 4 tools |
+| **Contract** | 2 tools | 1 tool | 1 tool | 4 tools |
+| **Transaction** | 2 tools | 0 tools | 0 tools | 2 tools |
+| **Token** | 2 tools | 0 tools | 0 tools | 2 tools |
+| **Gas** | 2 tools | 0 tools | 1 tool | 3 tools |
+| **Statistics** | 3 tools | 0 tools | 9 tools | 12 tools |
+| **Logs** | 0 tools | 3 tools | 0 tools | 3 tools |
+| **RPC** | 12 tools | 0 tools | 1 tool | 13 tools |
+| **TOTAL** | **37 tools** | **5 tools** | **13 tools** | **55 tools** |
+
+#### Complete Essential Tools List
+
+**Account Tools (11/12)**
+- ✅ `account_balance` - Single ETH balance
+- ✅ `account_balancemulti` - Multiple ETH balances
+- ✅ `account_fundedby` - Funding source analysis
+- ✅ `account_getminedblocks` - Blocks mined by address
+- ✅ `account_token1155tx` - ERC-1155 token transfers
+- ✅ `account_tokennfttx` - NFT transfers
+- ✅ `account_txlist` - Normal transactions
+- ✅ `account_txlistinternal` - Internal transactions
+- ✅ `account_txlistinternal_byblock` - Internal tx by block range
+- ✅ `account_txlistinternal_byhash` - Internal tx by hash
+- ✅ `account_txsBeaconWithdrawal` - Beacon chain withdrawals
+
+**Block Tools (4/4)**
+- ✅ `block_getblocknobytime` - Block number by timestamp
+- ✅ `block_getblockreward` - Block mining rewards
+- ✅ `block_getblocktxnscount` - Transaction count in block
+- ✅ `block_getblockcountdown` - Block countdown
+
+**Contract Tools (3/4)**
+- ✅ `contract_getcontractcreation` - Contract creation info
+- ✅ `contract_getsourcecode` - Verified source code
+- ✅ `contract_checkverifystatus` - Contract verification status
+
+**Transaction Tools (2/2)**
+- ✅ `transaction_getstatus` - Execution status
+- ✅ `transaction_gettxreceiptstatus` - Receipt status
+
+**Token Tools (2/2)**  
+- ✅ `account_tokenbalance` - ERC-20 token balance
+- ✅ `stats_tokensupply` - Total token supply
+
+**Gas Tools (2/3)**
+- ✅ `gas_gasestimate` - Gas time estimates
+- ✅ `gas_gasoracle` - Current gas prices
+
+**Statistics Tools (3/12)**
+- ✅ `stats_chainsize` - Blockchain database size
+- ✅ `stats_ethprice` - Current ETH price
+- ✅ `stats_nodecount` - Network node count
+
+**RPC Tools (12/13)**
+- ✅ `proxy_eth_blockNumber` - Latest block number
+- ✅ `proxy_eth_call` - Contract function call
+- ✅ `proxy_eth_estimateGas` - Gas estimation
+- ✅ `proxy_eth_gasPrice` - Current gas price
+- ✅ `proxy_eth_getBlockByNumber` - Block details
+- ✅ `proxy_eth_getBlockTransactionCountByNumber` - Block tx count
+- ✅ `proxy_eth_getStorageAt` - Contract storage slot
+- ✅ `proxy_eth_getTransactionByBlockNumberAndIndex` - Transaction by index
+- ✅ `proxy_eth_getTransactionByHash` - Transaction details
+- ✅ `proxy_eth_getTransactionCount` - Address nonce
+- ✅ `proxy_eth_getTransactionReceipt` - Transaction receipt
+- ✅ `proxy_eth_getUncleByBlockNumberAndIndex` - Uncle block data
+
+### 🟡 Situational Tools (5 tools)
+*Larger outputs, slower responses, or specific use cases - use carefully*
+
+**Large Output Tools**
+- ⚠️ `account_tokentx` - ERC-20 token transfers (use pagination for large datasets)
+
+**Contract Analysis Tools**
+- ⚠️ `contract_getabi` - Contract ABI (can be very large for complex contracts)
+
+**Event Log Analysis Tools**
+- ⚠️ `logs_getLogsByAddress` - Event logs by address 
+- ⚠️ `logs_getLogsByTopics` - Event logs by topics
+- ⚠️ `logs_getLogsByAddressAndTopics` - Combined filtering
+
+**Usage Tips:**
+- Use small block ranges for logs tools (1000 blocks max)  
+- Implement pagination for transaction lists
+- Cache results when possible
+- Monitor response times and output sizes
+
+### 🔴 Other Tools (11 tools)
+*These tools failed during testing or require Pro accounts*
+
+**Pro Account Required**
+Most daily statistics tools require Etherscan Pro accounts:
+- ❌ `stats_dailyavghashrate` - Daily average hashrate
+- ❌ `stats_dailyavgnetdifficulty` - Daily mining difficulty
+- ❌ `stats_dailynetutilization` - Daily network utilization
+- ❌ `stats_dailynewaddress` - Daily new addresses
+- ❌ `stats_dailytx` - Daily transaction count
+- ❌ `stats_dailytxnfee` - Daily transaction fees
+- ❌ `stats_ethdailyprice` - Historical ETH prices
+- ❌ `stats_ethsupply` - ETH supply data
+- ❌ `stats_ethsupply2` - ETH supply data v2
+- ❌ `stats_dailyavggaslimit` - Daily average gas limit
+
+**Large Output Tools**
+- ❌ `proxy_eth_getCode` - Contract bytecode (can be extremely large)
+
+**Recommendation**: Use essential tools for reliable agent performance. Pro tools may work with upgraded Etherscan accounts.
 
 ## 🎯 Use Cases & Examples
 
