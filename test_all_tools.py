@@ -25,10 +25,15 @@ def load_env():
         with open(env_path, 'r') as f:
             for line in f:
                 line = line.strip()
-                if line and not line.startswith('#') and '=' in line:
-                    key, value = line.split('=', 1)
-                    os.environ[key] = value
-    else:
+                if not line or line.startswith('#'):
+                    continue
+                if line.startswith('export '):
+                    line = line[7:].strip()
+                if '=' not in line:
+                    continue
+                key, value = line.split('=', 1)
+                value = value.strip().strip('"').strip("'")
+                os.environ[key] = value
         print("⚠️  .env file not found. Please copy .env.example to .env and add your API key.")
         print("   Get your API key from: https://etherscan.io/apis")
         return False
