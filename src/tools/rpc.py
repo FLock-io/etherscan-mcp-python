@@ -2,7 +2,7 @@
 
 from typing import Optional
 from mcp.server.fastmcp import FastMCP
-from .utils import api_call
+from .utils import api_call, api_call_filtered, api_call_with_bytecode_truncation
 
 
 def register_rpc_tools(server: FastMCP) -> None:
@@ -25,6 +25,8 @@ def register_rpc_tools(server: FastMCP) -> None:
     @server.tool()
     def proxy_eth_getBlockByNumber(tag: str, boolean: bool, chainid: str = "1") -> str:
         """Returns information about a block by block number.
+        Note: This can return very large data (600KB+). For agents needing basic block info,
+        consider using block_getblocktxnscount or proxy_eth_blockNumber instead.
         
         Args:
             tag: The block number, in hex eg. 0xC36B3C
@@ -38,7 +40,9 @@ def register_rpc_tools(server: FastMCP) -> None:
             "boolean": str(boolean).lower(),
             "chainid": chainid
         }
-        return api_call(params)
+        # Remove massive fields for agent optimization (can save 600KB+)
+        fields_to_remove = {"logsBloom", "transactions", "withdrawals"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def proxy_eth_getUncleByBlockNumberAndIndex(tag: str, index: str, chainid: str = "1") -> str:
@@ -140,7 +144,9 @@ def register_rpc_tools(server: FastMCP) -> None:
             "txhash": txhash,
             "chainid": chainid
         }
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization
+        fields_to_remove = {"logsBloom"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def proxy_eth_call(to: str, data: str, tag: str, chainid: str = "1") -> str:
@@ -165,6 +171,8 @@ def register_rpc_tools(server: FastMCP) -> None:
     @server.tool()
     def proxy_eth_getCode(address: str, tag: str, chainid: str = "1") -> str:
         """Returns code at a given address.
+        Note: Bytecode is truncated to 200 chars for agent efficiency. 
+        Agents can determine if address is a contract by checking if result != "0x".
         
         Args:
             address: The string representing the address to get code
@@ -178,7 +186,8 @@ def register_rpc_tools(server: FastMCP) -> None:
             "tag": tag,
             "chainid": chainid
         }
-        return api_call(params)
+        # Truncate massive bytecode (22KB+ -> 200 chars) for agent optimization
+        return api_call_with_bytecode_truncation(params, max_bytecode_length=2000)
     
     @server.tool()
     def proxy_eth_getStorageAt(address: str, position: str, tag: str, chainid: str = "1") -> str:

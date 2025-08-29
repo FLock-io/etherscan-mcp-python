@@ -2,7 +2,7 @@
 
 from typing import Optional
 from mcp.server.fastmcp import FastMCP
-from .utils import api_call
+from .utils import api_call, api_call_filtered
 
 
 def register_logs_tools(server: FastMCP) -> None:
@@ -39,7 +39,9 @@ def register_logs_tools(server: FastMCP) -> None:
             params["fromBlock"] = fromBlock
         if toBlock:
             params["toBlock"] = toBlock
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization
+        fields_to_remove = {"gasPrice", "gasUsed", "cumulativeGasUsed"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def logs_getLogsByTopics(
@@ -105,8 +107,11 @@ def register_logs_tools(server: FastMCP) -> None:
         for key, value in optional_params.items():
             if value is not None:
                 params[key] = value
-                
-        return api_call(params)
+        
+        # Remove unnecessary fields for agent optimization - enhanced removal        
+        fields_to_remove = {"gasPrice", "gasUsed", "cumulativeGasUsed", "logIndex", "transactionLogIndex", 
+                           "transactionIndex", "removed"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def logs_getLogsByAddressAndTopics(
@@ -175,5 +180,8 @@ def register_logs_tools(server: FastMCP) -> None:
         for key, value in optional_params.items():
             if value is not None:
                 params[key] = value
-                
-        return api_call(params)
+        
+        # Remove unnecessary fields for agent optimization - enhanced removal        
+        fields_to_remove = {"gasPrice", "gasUsed", "cumulativeGasUsed", "logIndex", "transactionLogIndex", 
+                           "transactionIndex", "removed"}
+        return api_call_filtered(params, fields_to_remove)

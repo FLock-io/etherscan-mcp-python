@@ -2,7 +2,7 @@
 
 from typing import Optional
 from mcp.server.fastmcp import FastMCP
-from .utils import api_call
+from .utils import api_call, api_call_filtered
 
 
 def register_account_tools(server: FastMCP) -> None:
@@ -73,7 +73,9 @@ def register_account_tools(server: FastMCP) -> None:
             "sort": sort,
             "chainid": chainid
         }
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization
+        fields_to_remove = {"blockHash", "nonce", "txreceipt_status", "cumulativeGasUsed", "confirmations", "input"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def account_txlistinternal(
@@ -107,7 +109,9 @@ def register_account_tools(server: FastMCP) -> None:
             "sort": sort,
             "chainid": chainid
         }
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization
+        fields_to_remove = {"input", "contractAddress", "errCode", "traceId", "type"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def account_txlistinternal_byhash(txhash: str, chainid: str = "1") -> str:
@@ -154,7 +158,9 @@ def register_account_tools(server: FastMCP) -> None:
             "sort": sort,
             "chainid": chainid
         }
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization
+        fields_to_remove = {"input", "contractAddress", "errCode", "traceId", "type"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def account_tokentx(
@@ -192,7 +198,9 @@ def register_account_tools(server: FastMCP) -> None:
         }
         if contractaddress:
             params["contractaddress"] = contractaddress
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization
+        fields_to_remove = {"nonce", "blockHash", "cumulativeGasUsed", "confirmations"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def account_tokennfttx(
@@ -230,7 +238,10 @@ def register_account_tools(server: FastMCP) -> None:
         }
         if contractaddress:
             params["contractaddress"] = contractaddress
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization - enhanced removal  
+        fields_to_remove = {"nonce", "blockHash", "cumulativeGasUsed", "confirmations",
+                           "transactionIndex", "gas", "gasPrice", "gasUsed", "input", "methodId", "functionName"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def account_token1155tx(
@@ -268,7 +279,10 @@ def register_account_tools(server: FastMCP) -> None:
         }
         if contractaddress:
             params["contractaddress"] = contractaddress
-        return api_call(params)
+        # Remove unnecessary fields for agent optimization - enhanced removal
+        fields_to_remove = {"nonce", "blockHash", "cumulativeGasUsed", "confirmations", "input", 
+                           "methodId", "functionName", "transactionIndex", "gas", "gasPrice", "gasUsed"}
+        return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
     def account_fundedby(address: str, chainid: str = "1") -> str:

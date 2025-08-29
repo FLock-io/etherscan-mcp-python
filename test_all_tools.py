@@ -39,13 +39,14 @@ if not os.getenv("ETHERSCAN_API_KEY") or os.getenv("ETHERSCAN_API_KEY") == "your
 # Add the src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
-# Import the utils API call function directly
-from tools.utils import api_call
+# Import the utils API call functions
+from tools.utils import api_call, api_call_filtered
 
 class ToolTester:
     def __init__(self):
         self.results = {}
         self.test_data = self._get_test_data()
+        self.tool_filters = self._get_tool_filters()
         
     def _get_test_data(self):
         """Get test data for different scenarios."""
@@ -69,11 +70,42 @@ class ToolTester:
             'today': datetime.now().strftime('%Y-%m-%d'),
         }
 
+    def _get_tool_filters(self):
+        """Get field filters for tools that use api_call_filtered."""
+        return {
+            # Account tools
+            'account_txlist': {"blockHash", "nonce", "txreceipt_status", "cumulativeGasUsed", "confirmations", "input"},
+            'account_txlistinternal': {"input", "contractAddress", "errCode", "traceId", "type"},
+            'account_txlistinternal_byblock': {"input", "contractAddress", "errCode", "traceId", "type"},
+            'account_tokentx': {"nonce", "blockHash", "cumulativeGasUsed", "confirmations"},
+            'account_tokennfttx': {"nonce", "blockHash", "cumulativeGasUsed", "confirmations", "transactionIndex", "gas", "gasPrice", "gasUsed", "input", "methodId", "functionName"},
+            'account_token1155tx': {"nonce", "blockHash", "cumulativeGasUsed", "confirmations", "input", "methodId", "functionName", "transactionIndex", "gas", "gasPrice", "gasUsed"},
+            
+            # Contract tools
+            'contract_getsourcecode': {"SourceCode", "ABI"},
+            'contract_getcontractcreation': {"creationBytecode"},
+            
+            # Logs tools
+            'logs_getLogsByAddress': {"gasPrice", "gasUsed", "cumulativeGasUsed"},
+            'logs_getLogsByTopics': {"gasPrice", "gasUsed", "cumulativeGasUsed", "logIndex", "transactionLogIndex", "transactionIndex", "removed"},
+            'logs_getLogsByAddressAndTopics': {"gasPrice", "gasUsed", "cumulativeGasUsed", "logIndex", "transactionLogIndex", "transactionIndex", "removed"},
+            
+            # RPC tools
+            'proxy_eth_getBlockByNumber': {"logsBloom", "transactions", "withdrawals"},
+            'proxy_eth_getTransactionReceipt': {"logsBloom"},
+        }
+
     def test_tool(self, tool_name, api_params):
-        """Test a single tool by making direct API calls."""
+        """Test a single tool by making direct API calls with appropriate filtering."""
         try:
             start_time = time.time()
-            result = api_call(api_params)
+            
+            # Check if this tool uses field filtering
+            if tool_name in self.tool_filters:
+                result = api_call_filtered(api_params, self.tool_filters[tool_name])
+            else:
+                result = api_call(api_params)
+                
             end_time = time.time()
             
             response_time = end_time - start_time
@@ -793,12 +825,12 @@ class ToolTester:
                     'action': 'eth_estimateGas',
                     'data': '0xa9059cbb000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa96045000000000000000000000000000000000000000000000000000000000000000a',
                     'to': self.test_data['usdt_contract'],
-                   'from': self.test_data['vitalik_address'],
                     'value': '0x0',
                     'gasPrice': '0x9184e72a000',
                     'gas': '0x76c0',
                     'chainid': '1'
                 }
+            }
         ]
         
         for test in rpc_tests:
