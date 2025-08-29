@@ -793,12 +793,12 @@ class ToolTester:
                     'action': 'eth_estimateGas',
                     'data': '0xa9059cbb000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa96045000000000000000000000000000000000000000000000000000000000000000a',
                     'to': self.test_data['usdt_contract'],
+                   'from': self.test_data['vitalik_address'],
                     'value': '0x0',
                     'gasPrice': '0x9184e72a000',
                     'gas': '0x76c0',
                     'chainid': '1'
                 }
-            }
         ]
         
         for test in rpc_tests:
