@@ -139,9 +139,8 @@ class ToolTester:
         """Run tests for all tool categories."""
         
         print("🧪 Starting comprehensive tool testing...")
-        api_key = os.environ.get('ETHERSCAN_API_KEY', 'NOT_SET')
-        if api_key != 'NOT_SET':
-            print(f"Using API Key: {api_key[:10]}...")
+        if os.environ.get('ETHERSCAN_API_KEY'):
+            print("Using ETHERSCAN_API_KEY from environment.")
         print("=" * 80)
         
         # Test each category
