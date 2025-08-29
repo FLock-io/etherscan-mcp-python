@@ -349,7 +349,7 @@ class ToolTester:
                 'params': {
                     'module': 'proxy',
                     'action': 'eth_getBlockTransactionCountByNumber',
-                    'tag': self.test_data['recent_block'],
+                    'tag': hex(int(self.test_data['recent_block'])),
                     'chainid': '1'
                 }
             }
