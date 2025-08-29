@@ -715,7 +715,7 @@ class ToolTester:
                 'params': {
                     'module': 'proxy',
                     'action': 'eth_getBlockByNumber',
-                    'tag': self.test_data['recent_block'],
+                    'tag': hex(int(self.test_data['recent_block'])),
                     'boolean': 'true',
                     'chainid': '1'
                 }
