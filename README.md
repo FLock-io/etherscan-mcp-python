@@ -64,6 +64,98 @@ etherscan_mcp = MCPTools(
 )
 ```
 
+### HTTP Server Deployment
+
+The server now supports **Streamable HTTP transport** for self-hosting and serving multiple clients over the network.
+
+#### Quick Start (Development)
+
+```bash
+# Option 1: Using http_server.py
+python http_server.py
+
+# Option 2: Using server.py with --transport flag
+python server.py --transport http --host 0.0.0.0 --port 8000
+
+# Option 3: Using environment variables
+export MCP_TRANSPORT=http
+export MCP_HOST=0.0.0.0
+export MCP_PORT=8000
+python server.py
+```
+
+#### Production Deployment with Uvicorn
+
+```bash
+# Single worker (simple)
+uvicorn http_server:app --host 0.0.0.0 --port 8000
+
+# Multiple workers (recommended for production)
+uvicorn http_server:app --host 0.0.0.0 --port 8000 --workers 4
+
+# With detailed logging
+uvicorn http_server:app --host 0.0.0.0 --port 8000 --log-level info --access-log
+```
+
+#### Connecting Clients to HTTP Server
+
+Once the server is running, clients can connect using the Streamable HTTP transport:
+
+**Python Client:**
+```python
+from fastmcp import Client
+
+# Connect to the HTTP server
+async with Client("http://localhost:8000/mcp") as client:
+    # List available tools
+    tools = await client.list_tools()
+    print(f"Available tools: {len(tools)}")
+
+    # Call a tool
+    result = await client.call_tool(
+        "account_balance",
+        {"address": "0x...", "chainid": "1"}
+    )
+    print(result)
+```
+
+**Configuration (Claude Desktop or other MCP clients):**
+```json
+{
+  "mcpServers": {
+    "etherscan": {
+      "url": "http://localhost:8000/mcp",
+      "transport": "http"
+    }
+  }
+}
+```
+
+#### HTTP Configuration Options
+
+Set these environment variables in your `.env` file or system:
+
+```bash
+# Transport protocol
+MCP_TRANSPORT=http           # Use 'http' for network, 'stdio' for local (default: stdio)
+
+# HTTP server settings
+MCP_HOST=0.0.0.0             # Bind to all interfaces (default: 127.0.0.1)
+MCP_PORT=8000                # Server port (default: 8000)
+MCP_PATH=/mcp                # MCP endpoint path (default: /mcp)
+
+# Logging
+MCP_LOG_LEVEL=info           # Log level: debug, info, warning, error (default: info)
+```
+
+#### Benefits of HTTP Transport
+
+- **Multi-client support**: Serve multiple clients simultaneously
+- **Network access**: Clients can connect from anywhere
+- **Production-ready**: Built on robust ASGI server (Uvicorn)
+- **Scalable**: Support for multiple worker processes
+- **Standard protocol**: Works with any HTTP-compatible MCP client
+
 ## Testing Tools
 
 To test all tools and generate recommendations for Agent development:
