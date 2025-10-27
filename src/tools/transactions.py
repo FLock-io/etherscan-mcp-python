@@ -8,12 +8,12 @@ def register_transaction_tools(server: FastMCP) -> None:
     """Register all transaction-related tools with the server."""
     
     @server.tool()
-    def transaction_getstatus(txhash: str, chainid: str = "1") -> str:
+    def transaction_getstatus(txhash: str, chainid: str = "8453") -> str:
         """Returns the status code of a contract execution.
         
         Args:
             txhash: The string representing the transaction hash to check the execution status
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "transaction",
@@ -24,12 +24,12 @@ def register_transaction_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def transaction_gettxreceiptstatus(txhash: str, chainid: str = "1") -> str:
+    def transaction_gettxreceiptstatus(txhash: str, chainid: str = "8453") -> str:
         """Returns the status code of a transaction execution.
         
         Args:
             txhash: The string representing the transaction hash to check the execution status
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "transaction",

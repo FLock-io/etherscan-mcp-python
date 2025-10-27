@@ -15,7 +15,7 @@ def register_logs_tools(server: FastMCP) -> None:
         toBlock: Optional[str] = None,
         page: str = "1",
         offset: str = "1000",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the event logs from an address, with optional filtering by block range.
         
@@ -25,7 +25,7 @@ def register_logs_tools(server: FastMCP) -> None:
             toBlock: The integer block number to stop searching for logs eg. 12879196
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page limited to **1000 records** per query
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "logs",
@@ -59,7 +59,7 @@ def register_logs_tools(server: FastMCP) -> None:
         topic1_3_opr: Optional[str] = None,
         page: Optional[str] = None,
         offset: Optional[str] = None,
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the events log in a block range, filtered by topics.
         
@@ -78,7 +78,7 @@ def register_logs_tools(server: FastMCP) -> None:
             topic1_3_opr: The topic operator when multiple topic combinations are used limited to `and` or `or`
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page limited to **1000 records** per query
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "logs",
@@ -130,7 +130,7 @@ def register_logs_tools(server: FastMCP) -> None:
         topic1_3_opr: Optional[str] = None,
         page: Optional[str] = None,
         offset: Optional[str] = None,
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the event logs from an address, filtered by topics and block range.
         
@@ -150,7 +150,7 @@ def register_logs_tools(server: FastMCP) -> None:
             topic1_3_opr: The topic operator when multiple topic combinations are used limited to `and` or `or`
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page limited to **1000 records** per query
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "logs",

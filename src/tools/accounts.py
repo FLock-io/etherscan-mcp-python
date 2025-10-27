@@ -9,12 +9,12 @@ def register_account_tools(server: FastMCP) -> None:
     """Register all account-related tools with the server."""
     
     @server.tool()
-    def account_balance(address: str, chainid: str = "1") -> str:
+    def account_balance(address: str, chainid: str = "8453") -> str:
         """Returns the Ether balance of a given address.
         
         Args:
             address: The string representing the address to check for balance
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -25,13 +25,13 @@ def register_account_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def account_balancemulti(address: str, chainid: str = "1") -> str:
+    def account_balancemulti(address: str, chainid: str = "8453") -> str:
         """Get Ether Balance for Multiple Addresses in a Single Call.
         
         Args:
             address: The strings representing the addresses to check for balance, separated by `,`
                     up to **20 addresses** per call
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -49,7 +49,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "10",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of 'Normal' Transactions By Address.
         
@@ -60,7 +60,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -85,7 +85,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "10",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of 'Internal' Transactions by Address.
         
@@ -96,7 +96,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -114,12 +114,12 @@ def register_account_tools(server: FastMCP) -> None:
         return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
-    def account_txlistinternal_byhash(txhash: str, chainid: str = "1") -> str:
+    def account_txlistinternal_byhash(txhash: str, chainid: str = "8453") -> str:
         """Returns the list of 'Internal' Transactions by Transaction Hash.
         
         Args:
             txhash: The string representing the transaction hash to get internal txs for
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -136,7 +136,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "10",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of 'Internal' Transactions by Block Range.
         
@@ -146,7 +146,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -171,7 +171,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "10",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of ERC20 Token Transfer Events by Address.
         
@@ -183,7 +183,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -211,7 +211,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "10",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of ERC721 Token Transfer Events by Address.
         
@@ -223,7 +223,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -252,7 +252,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "10",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of ERC1155 Token Transfer Events by Address.
         
@@ -264,7 +264,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of transactions displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -285,12 +285,12 @@ def register_account_tools(server: FastMCP) -> None:
         return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
-    def account_fundedby(address: str, chainid: str = "1") -> str:
+    def account_fundedby(address: str, chainid: str = "8453") -> str:
         """Returns the address that funded an address, and its relative age.
         
         Args:
             address: The string representing the address that received funding
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -306,7 +306,7 @@ def register_account_tools(server: FastMCP) -> None:
         blocktype: str = "blocks",
         page: str = "1",
         offset: str = "10",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the list of blocks validated by an address.
         
@@ -315,7 +315,7 @@ def register_account_tools(server: FastMCP) -> None:
             blocktype: The string pre-defined block type, either `blocks` for canonical blocks or `uncles` for uncle blocks only
             page: The integer page number, if pagination is enabled
             offset: The number of blocks displayed per page
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",
@@ -336,7 +336,7 @@ def register_account_tools(server: FastMCP) -> None:
         page: str = "1",
         offset: str = "100",
         sort: str = "asc",
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Returns the beacon chain withdrawals made to an address.
         
@@ -347,7 +347,7 @@ def register_account_tools(server: FastMCP) -> None:
             page: The integer page number, if pagination is enabled
             offset: The number of withdrawals displayed per page
             sort: The sorting preference, use `asc` to sort by ascending and `desc` to sort by descending
-            chainid: The chain id, default is 1
+            chainid: The chain id, default is 8453
         """
         params = {
             "module": "account",

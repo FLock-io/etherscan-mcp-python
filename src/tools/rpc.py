@@ -9,11 +9,11 @@ def register_rpc_tools(server: FastMCP) -> None:
     """Register all RPC proxy tools with the server."""
     
     @server.tool()
-    def proxy_eth_blockNumber(chainid: str = "1") -> str:
+    def proxy_eth_blockNumber(chainid: str = "8453") -> str:
         """Returns the number of most recent block.
         
         Args:
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -23,7 +23,7 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getBlockByNumber(tag: str, boolean: bool, chainid: str = "1") -> str:
+    def proxy_eth_getBlockByNumber(tag: str, boolean: bool, chainid: str = "8453") -> str:
         """Returns information about a block by block number.
         Note: This can return very large data (600KB+). For agents needing basic block info,
         consider using block_getblocktxnscount or proxy_eth_blockNumber instead.
@@ -31,7 +31,7 @@ def register_rpc_tools(server: FastMCP) -> None:
         Args:
             tag: The block number, in hex eg. 0xC36B3C
             boolean: When true, returns full transaction objects and their information, when false only returns a list of transactions
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -45,13 +45,13 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
-    def proxy_eth_getUncleByBlockNumberAndIndex(tag: str, index: str, chainid: str = "1") -> str:
+    def proxy_eth_getUncleByBlockNumberAndIndex(tag: str, index: str, chainid: str = "8453") -> str:
         """Returns information about a uncle by block number.
         
         Args:
             tag: The block number, in hex eg. 0xC36B3C
             index: The position of the uncle's index in the block, in hex eg. 0x5
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -63,12 +63,12 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getBlockTransactionCountByNumber(tag: str, chainid: str = "1") -> str:
+    def proxy_eth_getBlockTransactionCountByNumber(tag: str, chainid: str = "8453") -> str:
         """Returns the number of transactions in a block.
         
         Args:
             tag: The block number, in hex eg. 0xC36B3C
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -79,12 +79,12 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getTransactionByHash(txhash: str, chainid: str = "1") -> str:
+    def proxy_eth_getTransactionByHash(txhash: str, chainid: str = "8453") -> str:
         """Returns information about a transaction requested by transaction hash.
         
         Args:
             txhash: The string representing the hash of the transaction
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -95,13 +95,13 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getTransactionByBlockNumberAndIndex(tag: str, index: str, chainid: str = "1") -> str:
+    def proxy_eth_getTransactionByBlockNumberAndIndex(tag: str, index: str, chainid: str = "8453") -> str:
         """Returns information about a transaction requested by block number and transaction index position.
         
         Args:
             tag: The block number, in hex eg. 0xC36B3C
             index: The position of the uncle's index in the block, in hex eg. 0x5
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -113,13 +113,13 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getTransactionCount(address: str, tag: str, chainid: str = "1") -> str:
+    def proxy_eth_getTransactionCount(address: str, tag: str, chainid: str = "8453") -> str:
         """Returns the number of transactions performed by an address.
         
         Args:
             address: The string representing the address to get transaction count
             tag: The string pre-defined block parameter, either `earliest`, `pending` or `latest`
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -131,12 +131,12 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getTransactionReceipt(txhash: str, chainid: str = "1") -> str:
+    def proxy_eth_getTransactionReceipt(txhash: str, chainid: str = "8453") -> str:
         """Returns the receipt of a transaction that has been validated.
         
         Args:
             txhash: The string representing the hash of the transaction
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -149,14 +149,14 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call_filtered(params, fields_to_remove)
     
     @server.tool()
-    def proxy_eth_call(to: str, data: str, tag: str, chainid: str = "1") -> str:
+    def proxy_eth_call(to: str, data: str, tag: str, chainid: str = "8453") -> str:
         """Executes a new message call immediately without creating a transaction on the block chain.
         
         Args:
             to: The string representing the address to interact with
             data: The hash of the method signature and encoded parameters
             tag: The string pre-defined block parameter, either `earliest`, `pending` or `latest`
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -169,7 +169,7 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_getCode(address: str, tag: str, chainid: str = "1") -> str:
+    def proxy_eth_getCode(address: str, tag: str, chainid: str = "8453") -> str:
         """Returns code at a given address.
         Note: Bytecode is truncated to 200 chars for agent efficiency. 
         Agents can determine if address is a contract by checking if result != "0x".
@@ -177,7 +177,7 @@ def register_rpc_tools(server: FastMCP) -> None:
         Args:
             address: The string representing the address to get code
             tag: The string pre-defined block parameter, either `earliest`, `pending` or `latest`
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -190,14 +190,14 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call_with_bytecode_truncation(params, max_bytecode_length=2000)
     
     @server.tool()
-    def proxy_eth_getStorageAt(address: str, position: str, tag: str, chainid: str = "1") -> str:
+    def proxy_eth_getStorageAt(address: str, position: str, tag: str, chainid: str = "8453") -> str:
         """Returns the value from a storage position at a given address.
         
         Args:
             address: The string representing the address to get code
             position: The hex code of the position in storage, eg 0x0
             tag: The string pre-defined block parameter, either `earliest`, `pending` or `latest`
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -210,11 +210,11 @@ def register_rpc_tools(server: FastMCP) -> None:
         return api_call(params)
     
     @server.tool()
-    def proxy_eth_gasPrice(chainid: str = "1") -> str:
+    def proxy_eth_gasPrice(chainid: str = "8453") -> str:
         """Returns the current price per gas in wei.
         
         Args:
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
@@ -230,7 +230,7 @@ def register_rpc_tools(server: FastMCP) -> None:
         value: Optional[str] = None,
         gas: Optional[str] = None,
         gasPrice: Optional[str] = None,
-        chainid: str = "1"
+        chainid: str = "8453"
     ) -> str:
         """Makes a call or transaction, which won't be added to the blockchain and returns the used gas.
         
@@ -240,7 +240,7 @@ def register_rpc_tools(server: FastMCP) -> None:
             value: The value sent in this transaction, in hex eg. 0xff22
             gas: The amount of gas provided for the transaction, in hex eg. 0x5f5e0ff
             gasPrice: The gas price paid for each unit of gas, in wei
-            chainid: Chain id, default 1 (Ethereum)
+            chainid: Chain id, default 8453 (Base)
         """
         params = {
             "module": "proxy",
